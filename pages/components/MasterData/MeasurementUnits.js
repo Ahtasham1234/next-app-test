@@ -30,8 +30,9 @@ import Env from "@/Env";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { unitsActions } from "@/redux/measurementSlice";
+import { fetchMeasurementUnits } from "@/redux/measurementAction";
 
 const useStyles = {
   modal: {
@@ -56,7 +57,8 @@ const MeasurementUnits = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [deleteData, setDeleteData] = useState([]);
   const dispatch = useDispatch();
-
+  const measurementUnits = useSelector((state) => state.units.measurementUnits);
+  console.log(measurementUnits);
   const columns = [
     { field: "code", headerName: "Código", width: 130 },
     { field: "description", headerName: "Descripción", width: 170 },
@@ -84,15 +86,21 @@ const MeasurementUnits = () => {
   const getRowId = (row) => row._id;
 
   useEffect(() => {
-    axios
-      .get(`${Env.REACT_APP_BACKEND_ENV}/api/unidades/GetAllDataFormOne`)
-      .then((res) => {
-        console.log("GetAllData===>>>", res.data.findFormOne);
-        setRows(res.data.findFormOne);
-        dispatch(unitsActions.getAllMeasurementsUnits());
-      })
-      .catch((err) => console.log("Error===>>", err));
+    dispatch(fetchMeasurementUnits());
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`${Env.REACT_APP_BACKEND_ENV}/api/unidades/GetAllDataFormOne`)
+  //     .then((res) => {
+  //       console.log("GetAllData===>>>", res.data.findFormOne);
+  //       // setRows(res.data.findFormOne);
+  //       dispatch(
+  //         unitsActions.getAllMeasurementsUnits({ data: res.data.findFormOne })
+  //       );
+  //     })
+  //     .catch((err) => console.log("Error===>>", err));
+  // }, [dispatch]);
 
   const handleSwitchChange = () => {
     setIsOn(!isOn);
@@ -161,6 +169,7 @@ const MeasurementUnits = () => {
       .then((res) => {
         console.log("it is the From One====>>>>", res.data);
         handleClose();
+        dispatch(fetchMeasurementUnits());
       })
       .catch((err) => {
         console.log("erro===>>>", err);
@@ -176,6 +185,7 @@ const MeasurementUnits = () => {
       .then((res) => {
         if (res.data.message === "success") {
           handleCloseModal();
+          dispatch(fetchMeasurementUnits());
         } else {
           alert("Not Deleted Successfuly");
         }
@@ -244,7 +254,7 @@ const MeasurementUnits = () => {
               </div>
               <div style={{ height: 450, width: "100%", maxWidth: "1050px" }}>
                 <DataGrid
-                  rows={rows}
+                  rows={measurementUnits}
                   columns={columns}
                   getRowId={getRowId}
                   checkboxSelection

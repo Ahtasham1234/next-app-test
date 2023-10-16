@@ -7,7 +7,6 @@ const clientsSlice = createSlice({
   },
   reducers: {
     getAllClients(state, action) {
-      console.log("Action dispatched:", action);
       state.allClients = action.payload.allClients;
     },
   },

@@ -27,13 +27,13 @@ function MyApp({ Component, pageProps }) {
     layouts[Component.layout] ||
     ((pageProps) => <Component>{pageProps}</Component>);
   return (
-    <Provider store={store}>
-      <Layout>
-        <SSRProvider>
+    <Layout>
+      <SSRProvider>
+        <Provider store={store}>
           <Component {...pageProps} />
-        </SSRProvider>
-      </Layout>
-    </Provider>
+        </Provider>
+      </SSRProvider>
+    </Layout>
   );
 }
 

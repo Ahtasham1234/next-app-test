@@ -11,12 +11,10 @@ import { auth } from "../shared/firebase/firebase";
 import { RiEyeFill, RiEyeCloseFill } from "react-icons/ri";
 import axios from "axios";
 import Env from "@/Env";
-import { useDispatch } from "react-redux";
+
 import { authActions } from "@/redux/authSlice";
 
 export default function Home() {
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (document.body) {
       document
@@ -45,7 +43,7 @@ export default function Home() {
   const routeChange = (company) => {
     let path = `/components/dashboards/dashboard1`;
     // navigate.push('/components/dashboards/dashboard1/jjjjjj');
-    dispatch(authActions.signIn());
+
     navigate.push({
       pathname: "/components/dashboards/dashboard1",
       query: { company: `${company}` },

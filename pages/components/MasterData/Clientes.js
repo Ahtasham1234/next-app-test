@@ -86,25 +86,25 @@ const Clientes = () => {
   ];
 
   const getRowId = (row) => row._id;
-  //   useEffect(() => {
-  //     dispatch(fetchAllClients())
-  //   }, [dispatch])
-
   useEffect(() => {
-    axios
-      .get(`${Env.REACT_APP_BACKEND_ENV}/api/client/getAllClient`)
-      .then((res) => {
-        console.log("GetAllData===>>>", res.data.findClientAll);
-        // setGetDataAllClient(res.data.findClientAll);
-        setRows(res.data.findClientAll);
-        dispatch(
-          clientsActions.getAllClients({
-            allClients: res.data.findClientAll || [],
-          })
-        );
-      })
-      .catch((err) => console.log("Erroreee===>>", err));
+    dispatch(fetchAllClients());
   }, [dispatch]);
+
+  //   useEffect(() => {
+  //     axios
+  //       .get(`${Env.REACT_APP_BACKEND_ENV}/api/client/getAllClient`)
+  //       .then((res) => {
+  //         console.log("GetAllData===>>>", res.data.findClientAll);
+  //         // setGetDataAllClient(res.data.findClientAll);
+  //         // setRows(res.data.findClientAll);
+  //         dispatch(
+  //           clientsActions.getAllClients({
+  //             allClients: res.data.findClientAll || [],
+  //           })
+  //         );
+  //       })
+  //       .catch((err) => console.log("Erroreee===>>", err));
+  //   }, [dispatch]);
 
   const handleSwitchChange = () => {
     setIsOn(!isOn);
@@ -171,6 +171,7 @@ const Clientes = () => {
       .then((res) => {
         console.log("it is the From One====>>>>", res.data);
         closeInsertionForm();
+        dispatch(fetchAllClients());
       })
       .catch((err) => {
         console.log("erro===>>>", err);
@@ -196,6 +197,7 @@ const Clientes = () => {
       .then((res) => {
         if (res.data.message === "success") {
           handleCloseModal();
+          dispatch(fetchAllClients());
         } else {
           alert("Not Deleted Successfuly");
         }
@@ -377,7 +379,7 @@ const Clientes = () => {
                 </div>
                 <div style={{ height: 400, width: "100%", maxWidth: "1050px" }}>
                   <DataGrid
-                    rows={rows}
+                    rows={clients}
                     columns={columns}
                     getRowId={getRowId}
                     checkboxSelection

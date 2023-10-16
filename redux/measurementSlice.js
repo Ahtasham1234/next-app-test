@@ -6,7 +6,7 @@ const measurementUnitSlice = createSlice({
   reducers: {
     getAllMeasurementsUnits(state, action) {
       console.log("action", action);
-      state.measurementUnits = ["testing"];
+      state.measurementUnits = action.payload.data;
     },
   },
 });
